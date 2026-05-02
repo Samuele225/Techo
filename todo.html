@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attività</title>
+
+<link rel="stylesheet" href="Techo.css">
+</head>
+
+<body>
+
+<div class="todo-container">
+
+    <h2 id="dateTitle"></h2>
+
+    <!-- INPUT ORARIO + TESTO -->
+    <div class="input-row">
+        <input type="time" id="timeInput">
+        <input type="text" id="taskInput" placeholder="Cosa devi fare?">
+    </div>
+
+    <!-- BOTTONI -->
+    <div class="button-row">
+        <button id="addBtn">+</button>
+        <button id="clearBtn">🗑</button>
+    </div>
+
+    <!-- LISTA ATTIVITÀ -->
+    <div id="list"></div>
+
+</div>
+
+<script src="todo.js"></script>
+</body>
+</html>
