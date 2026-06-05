@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f2f2f2;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #2b6fff;
+    color: white;
+    padding: 10px;
+}
+
+#month {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#daysContainer {
+    display: flex;
+    overflow-x: auto;
+    background: white;
+    padding: 10px;
+    gap: 8px;
+}
+
+.day {
+    min-width: 60px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background: #e6e6e6;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.day.active {
+    background: #2b6fff;
+    color: white;
+}
+
+.day.today {
+    border: 2px solid #00c853;
+}
+
+#tasks {
+    padding: 15px;
+}
+
+.task {
+    background: white;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task.done {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.addBtn {
+    background: #2b6fff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.actions button {
+    margin-left: 5px;
+}

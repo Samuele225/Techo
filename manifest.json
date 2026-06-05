@@ -1,0 +1,17 @@
+{
+  "name": "Techo schedule",
+  "short_name": "Techo",
+  "description": "Calendario per attività giornaliere",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f2f2",
+  "theme_color": "#2b6fff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}
