@@ -1,216 +1,90 @@
-
-* {
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
-}
-
 body {
-    margin: 0;
-    height: 100vh;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    margin: 0;
+    background: #f2f2f2;
+}
 
+header {
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-/* =========================
-   📅 CALENDARIO
-========================= */
-
-.calendar {
-    width: 95%;
-    max-width: 360px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    padding: 20px;
-}
-
-.header {
-    display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.header button {
-    background: #007BFF;
+    background: #2b6fff;
     color: white;
-    border: none;
-    padding: 10px 14px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 10px;
 }
 
-.days, .dates {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    margin-top: 10px;
-}
-
-.days div {
+#month {
+    font-size: 18px;
     font-weight: bold;
 }
 
-.dates div {
-    min-height: 48px;
+#daysContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.dates div:hover {
-    background: #007BFF;
-    color: white;
-}
-
-.today {
-    background: #007BFF;
-    color: white;
-}
-
-.selected {
-    background: #ff9800;
-    color: white;
-}
-
-/* =========================
-   📝 TODO APP
-========================= */
-
-.todo-container {
-    width: 95%;
-    max-width: 420px;
-
-    max-height: 90vh;
-    overflow-y: auto;
-
-    text-align: center;
-}
-
-/* titolo */
-#dateTitle {
-    margin-bottom: 10px;
-}
-
-/* input row */
-.input-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.input-row input {
-    flex: 1;
+    overflow-x: auto;
+    background: white;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-/* bottoni */
-.button-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.button-row button {
-    flex: 1;
-    padding: 10px;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#addBtn {
-    background: #007BFF;
-    color: white;
-}
-
-#clearBtn {
-    background: #8b0000;
-    color: white;
-}
-
-/* =========================
-   📋 LISTA TASK (FIX DEFINITIVO TESTO LUNGO)
-========================= */
-
-#list {
-    margin-top: 15px;
-}
-
-#list div {
-    background: #fff;
-    margin-top: 8px;
-    padding: 10px;
-    border-radius: 5px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 10px;
-
-    box-shadow: 0 0 5px rgba(0,0,0,0.05);
-}
-
-/* TESTO CHE NON ESCE MAI */
-#list div span {
-    flex: 1;
-    word-break: break-word;
-    white-space: pre-wrap;
-}
-
-/* bottoni azioni */
-.actions {
-    display: flex;
     gap: 8px;
 }
 
-.actions button {
-    border: none;
-    background: none;
-    font-size: 18px;
+.day {
+    min-width: 60px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background: #e6e6e6;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-/* fatto */
-.done {
+.day.active {
+    background: #2b6fff;
+    color: white;
+}
+
+.day.today {
+    border: 2px solid #00c853;
+}
+
+#tasks {
+    padding: 15px;
+}
+
+.task {
+    background: white;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task.done {
     text-decoration: line-through;
     opacity: 0.5;
 }
 
-/* delete */
-.deleteBtn {
-    color: #8b0000;
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-/* feedback touch */
-.actions button:active {
-    transform: scale(0.9);
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-/* =========================
-   📱 MOBILE FIX
-========================= */
+.addBtn {
+    background: #2b6fff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
 
-@media (max-width: 400px) {
-    .dates div {
-        min-height: 42px;
-        font-size: 14px;
-    }
-
-    .header button {
-        padding: 8px 12px;
-        font-size: 14px;
-    }
+.actions button {
+    margin-left: 5px;
 }

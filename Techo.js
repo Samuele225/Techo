@@ -1,85 +1,143 @@
-const monthYear = document.getElementById("monthYear");
-const datesContainer = document.getElementById("dates");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
+let today = new Date();
 
-let currentDate = new Date();
-let selectedDay = null;
+// 👉 calendario parte SEMPRE da oggi
+let date = new Date(today.getFullYear(), today.getMonth(), 1);
+
+// giorno selezionato = oggi se nello stesso mese
+let selectedDay = today.getDate();
+
+let tasks = JSON.parse(localStorage.getItem("tasks") || "{}");
+
+function getKey(d = date, day = selectedDay) {
+    return `${d.getFullYear()}-${d.getMonth()}-${day}`;
+}
 
 function renderCalendar() {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const monthNames = [
+        "Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno",
+        "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"
+    ];
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDate = new Date(year, month + 1, 0).getDate();
+    document.getElementById("month").innerText =
+        monthNames[date.getMonth()] + " " + date.getFullYear();
 
-    const today = new Date();
+    const daysContainer = document.getElementById("daysContainer");
+    daysContainer.innerHTML = "";
 
-    monthYear.textContent = currentDate.toLocaleDateString("it-IT", {
-        month: "long",
-        year: "numeric"
-    });
+    const daysInMonth = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0
+    ).getDate();
 
-    datesContainer.innerHTML = "";
+    for (let i = 1; i <= daysInMonth; i++) {
 
-    const startDay = (firstDay === 0) ? 6 : firstDay - 1;
+        const div = document.createElement("div");
+        div.className = "day";
 
-    for (let i = 0; i < startDay; i++) {
-        datesContainer.appendChild(document.createElement("div"));
-    }
+        // evidenzia giorno selezionato
+        if (i === selectedDay) div.classList.add("active");
 
-    for (let i = 1; i <= lastDate; i++) {
-        const day = document.createElement("div");
-        day.textContent = i;
-
-        // oggi
+        // evidenzia oggi reale
         if (
             i === today.getDate() &&
-            month === today.getMonth() &&
-            year === today.getFullYear()
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
         ) {
-            day.classList.add("today");
+            div.classList.add("today");
         }
 
-        // click selezione
-       day.addEventListener("click", () => {
+        div.innerText = i;
 
-    // rimuove selezione e anche "oggi"
-    document.querySelectorAll(".dates div").forEach(el => {
-        el.classList.remove("selected");
-        el.classList.remove("today");
-         window.location.href = `todo.html?day=${i}&month=${month + 1}&year=${year}`;
-    });
+        div.onclick = () => {
+            selectedDay = i;
+            renderCalendar();
+            renderTasks();
+        };
 
-    // seleziona il giorno cliccato
-    day.classList.add("selected");
-
-    selectedDay = {
-        day: i,
-        month: month + 1,
-        year: year
-    };
-
-    console.log("Selezionato:", selectedDay);
-});
-        
-
-        datesContainer.appendChild(day);
+        daysContainer.appendChild(div);
     }
 }
 
-prevBtn.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar();
-});
+function changeMonth(offset) {
+    date.setMonth(date.getMonth() + offset);
 
-nextBtn.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar();
-});
+    // se cambi mese, vai al giorno 1
+    selectedDay = 1;
 
+    renderCalendar();
+    renderTasks();
+}
+
+function addTask() {
+    const input = document.getElementById("taskInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const key = getKey();
+
+    if (!tasks[key]) tasks[key] = [];
+
+    tasks[key].push({ text, done: false });
+    input.value = "";
+
+    renderTasks();
+}
+
+function toggleDone(index) {
+    const key = getKey();
+    tasks[key][index].done = !tasks[key][index].done;
+    renderTasks();
+}
+
+function deleteTask(index) {
+    const key = getKey();
+    tasks[key].splice(index, 1);
+    renderTasks();
+}
+
+function renderTasks() {
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    const key = getKey();
+    const dayTasks = tasks[key] || [];
+
+    dayTasks.forEach((t, i) => {
+        const div = document.createElement("div");
+        div.className = "task" + (t.done ? " done" : "");
+
+        div.innerHTML = `
+            <span>${t.text}</span>
+            <div class="actions">
+                <button onclick="toggleDone(${i})">
+                    ${t.done ? "↩" : "✔"}
+                </button>
+                <button onclick="deleteTask(${i})">❌</button>
+            </div>
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+// 🚀 avvio automatico su oggi
 renderCalendar();
+renderTasks();
+
+function clearMemory() {
+    if (!confirm("Vuoi eliminare tutte le attività salvate?")) return;
+
+    tasks = {};
+    localStorage.removeItem("tasks");
+
+    renderTasks();
+}
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+            .then(() => console.log("SW attivo"))
+            .catch(err => console.log("Errore SW:", err));
+    });
 }
